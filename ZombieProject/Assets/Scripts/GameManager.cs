@@ -2,6 +2,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Vector3 = UnityEngine.Vector3;
+using TMPro;
 
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     public Vector3 pushForce;
     private InputAction next, prev, jump;
     private int selectedIndex = 0;
+    public TMP_Text timerText;
+    private float timer;
    
 
     private void Start()
@@ -51,6 +54,8 @@ public class GameManager : MonoBehaviour
                 rb.AddForce(pushForce);
             }
         }
+        timer += Time.deltaTime;
+        timerText.text = "Time: " + timer;
     }
     
     void SelectZombie(int index)
