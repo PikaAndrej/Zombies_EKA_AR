@@ -7,18 +7,27 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public bool gameActive = true;
+    
     public GameObject[] zombies;
-    private GameObject selectedZombie;
+    public GameObject selectedZombie;
     public Vector3 selectedSize;
     public Vector3 pushForce;
     private InputAction next, prev, jump;
     private int selectedIndex = 0;
+    
     public TMP_Text timerText;
     private float timer;
+    
+    private int points = 0;
+    public TMP_Text pointsText;
    
 
     private void Start()
     {
+        Time.timeScale = 1;
+        gameActive = true;
+        
         next = InputSystem.actions.FindAction("NextZombie");
         prev = InputSystem.actions.FindAction("PrevZombie");
         jump = InputSystem.actions.FindAction("Jump");
@@ -27,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (next.WasPressedThisFrame())
+        if (next.WasPressedThisFrame() && gameActive)
         {
             Debug.Log("Next");
             selectedIndex++;
@@ -36,7 +45,7 @@ public class GameManager : MonoBehaviour
             SelectZombie(selectedIndex);
         }
 
-        if (prev.WasPressedThisFrame())
+        if (prev.WasPressedThisFrame() && gameActive)
         {
             Debug.Log("Prev");
             selectedIndex--;
@@ -45,7 +54,7 @@ public class GameManager : MonoBehaviour
             SelectZombie(selectedIndex);
         }
 
-        if (jump.WasPressedThisFrame())
+        if (jump.WasPressedThisFrame() && gameActive)
         {
             Debug.Log("Jump");
             Rigidbody rb = selectedZombie.GetComponent<Rigidbody>();
@@ -55,7 +64,7 @@ public class GameManager : MonoBehaviour
             }
         }
         timer += Time.deltaTime;
-        timerText.text = "Time: " + timer;
+        timerText.text = "Time: " + (int)timer;
     }
     
     void SelectZombie(int index)
@@ -64,8 +73,14 @@ public class GameManager : MonoBehaviour
         {
             selectedZombie.transform.localScale = Vector3.one;
         }
-        selectedZombie = zombies[index]; 
+        selectedZombie = zombies[index];
         selectedZombie.transform.localScale = selectedSize;
         Debug.Log("Selected: " + selectedZombie);
+    }
+
+    public void AddPoints(int amount)
+    {
+        points += amount;
+        pointsText.text = "Points: " + points;
     }
 }
