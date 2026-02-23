@@ -1,0 +1,1 @@
+This is the first Homework for 3D programming. It contains a rolling zombie minigame, where you have to collect golden eggs and don't let zombies roll too far. Use A and D to change the zombie, use Spacebar to push zombies away from the edge.
